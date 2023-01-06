@@ -15,7 +15,7 @@ namespace VMDemo
             int input = 0;
             while (!int.TryParse(inputString, out input))
             {
-                Console.WriteLine("Enter Valid Input");
+                Console.WriteLine("Enter Valid Input!");
                 inputString = Console.ReadLine();
             }
             return input;

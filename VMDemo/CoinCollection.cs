@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using static VMDemo.Constants;
@@ -14,7 +13,6 @@ namespace VMDemo
 
         public void InsertCoinToDictionary(Coin coin, int numberOfCoins)
         {
-            string strCoin = coin.ToString();
             int coinValue = numberOfCoins * coin.GetCoinValue();
 
             if (dictionaryCoin.ContainsKey(coin))
@@ -78,7 +76,6 @@ namespace VMDemo
                 }
                 else
                 {
-                    var cacheItem = new CacheItem(coin.ToString(), coinValue);
                     dictionaryCoin[coin] = coinValue;
                     coinValue = 0;
                 }
