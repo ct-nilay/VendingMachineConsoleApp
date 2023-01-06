@@ -1,1 +1,1 @@
-# Vending MachineConsole App
+# Vending Machine Console App
