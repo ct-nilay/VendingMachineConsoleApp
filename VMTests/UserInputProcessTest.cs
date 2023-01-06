@@ -12,10 +12,10 @@ namespace VMTests
         UserInputProcess _userInputProcess = new UserInputProcess();
 
         [Fact]
-        public void HandleCoinSelection_ReturnsFalse_When_InputCoinIsPenny()
+        public void HandleCoinSelection_ReturnsFalse_When_InvalidCoinInput()
         {
             //Arrange
-            var coin = "4";
+            var coin = "5";
             var stringReader = new StringReader(coin);
             Console.SetIn(stringReader);
             //Act
@@ -24,19 +24,7 @@ namespace VMTests
             //Assert
             Assert.False(isValid);
         }
-        [Fact]
-        public void HandleCoinSelection_ReturnsFalse_When_InputCoinIsUnknown()
-        {
-            //Arrange
-            var coin = "7";
-            var stringReader = new StringReader(coin);
-            Console.SetIn(stringReader);
-            //Act
-            bool isValid = _userInputProcess.HandleCoinSelection();
-
-            //Assert
-            Assert.False(isValid);
-        }
+        
         [Fact]
         public void HandleCoinSelection_ReturnsTrue_When_ValidInputCoin()
         {

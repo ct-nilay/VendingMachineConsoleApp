@@ -18,11 +18,11 @@ namespace VMDemo
         public string AcceptCoins(Coin coin, int num)
         {
             string returnMessage = StringConstants.CheckInput;
-            if (coin != Coin.Other && coin != Coin.Penny && num > 0)
+            if (coin != Coin.Other && num > 0)
             {
-                _coinCollection.InsertCoinToMemory(coin, num);
+                _coinCollection.InsertCoinToDictionary(coin, num);
                 int coinValue = _coinCollection.GetTotalBalance();
-                returnMessage = $"{StringConstants.CoinSuccess} {StringConstants.Balance} {coinValue.GetCurrencyString()}";
+                returnMessage = $"{StringConstants.CoinSuccess} {StringConstants.Balance} {coinValue.ToCurrency()}";
             }
             return returnMessage;
         }
@@ -33,18 +33,18 @@ namespace VMDemo
 
             if (prod != Product.Other)
             {
-                int productPrice = prod.GetProductPrice();
+                int productPrice = prod.GetProductValue();
                 int totalBalance = _coinCollection.GetTotalBalance();
 
                 if (totalBalance >= productPrice)
                 {
                     _coinCollection.UpdateCoinBalance(productPrice);
                     totalBalance = _coinCollection.GetTotalBalance();
-                    returnMessage = $"{StringConstants.ThankYou} {StringConstants.Balance} {totalBalance.GetCurrencyString()}";
+                    returnMessage = $"{StringConstants.ThankYou} {StringConstants.Balance} {totalBalance.ToCurrency()}";
                 }
                 else
                 {
-                    returnMessage = $"{StringConstants.Balance} {totalBalance.GetCurrencyString()} & {StringConstants.ProductPrice} {productPrice.GetCurrencyString()}";
+                    returnMessage = $"{StringConstants.InsufficientBalance} {totalBalance.ToCurrency()} & {StringConstants.ProductPrice} {productPrice.ToCurrency()}";
                 }
             }           
             return returnMessage;
@@ -54,9 +54,9 @@ namespace VMDemo
         {
             var returnMesage = string.Empty;
 
-            int coinValue = _coinCollection.GetTotalBalance();
-            returnMesage = (coinValue > 0) ? $"{StringConstants.Balance} {coinValue.GetCurrencyString()}" 
-                : $"{StringConstants.InsertCoin} {StringConstants.Balance} {coinValue.GetCurrencyString()}";
+            int totalBalance = _coinCollection.GetTotalBalance();
+            returnMesage = (totalBalance > 0) ? $"{StringConstants.Balance} {totalBalance.ToCurrency()}" 
+                : $"{StringConstants.InsertCoin} {StringConstants.Balance} {totalBalance.ToCurrency()}";
 
             return returnMesage;
         }

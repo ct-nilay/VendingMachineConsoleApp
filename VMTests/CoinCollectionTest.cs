@@ -9,30 +9,28 @@ namespace VMTests
     public class CoinCollectionTest
     {
         CoinCollection _coinCollection;
-        MemoryCacheService _memoryCacheService;
         public CoinCollectionTest()
         {
-            _memoryCacheService = new MemoryCacheService();
-            _coinCollection = new CoinCollection(_memoryCacheService);
+            _coinCollection = new CoinCollection();
         }
 
         [Fact]
-        public void InsertCoinToMemory_ReturnsSuccess_When_ThereIsNoCacheItemAdded()
+        public void InsertCoinToDictionary_ReturnsSuccess_When_CoinIsAddedToDictionary()
         {
             //Arrange
             var coin = Coin.Quarter;
             int num = 4;
 
             //Act
-            _coinCollection.InsertCoinToMemory(coin, num);
-            bool isAdded = _memoryCacheService.IsExists(coin.ToString());
+            _coinCollection.InsertCoinToDictionary(coin, num);            
+            int coinValue = _coinCollection.GetCoinValueFromDictionary(coin);
 
             //Assert
-            Assert.True(isAdded);
+            Assert.True(coinValue > 0);
         }
 
         [Fact]
-        public void InsertCoinToMemory_ReturnsSuccess_When_CacheItemUpdated()
+        public void InsertCoinToDictionary_ReturnsSuccess_When_CoinValueUpdatedInDictionary()
         {
             //Arrange
             var coin = Coin.Quarter;
@@ -40,70 +38,15 @@ namespace VMTests
             int num2 = 2;
 
             //Act
-            _coinCollection.InsertCoinToMemory(coin, num1);
-            _coinCollection.InsertCoinToMemory(coin, num2);
+            _coinCollection.InsertCoinToDictionary(coin, num1);
+            _coinCollection.InsertCoinToDictionary(coin, num2);
 
-            var cacheItemValue = _memoryCacheService.GetCacheItem(coin.ToString());
+            int coinValue = _coinCollection.GetCoinValueFromDictionary(coin);
             int totalBalance = _coinCollection.GetTotalBalance();
 
             //Assert
-            Assert.Equal(cacheItemValue, totalBalance);
-        }
-
-        [Fact]
-        public void GetTotalBalance_ReturnsZero_When_NoCoinIsAdded()
-        {
-            //Arrange
-
-            //Act
-            int totalBalance = _coinCollection.GetTotalBalance();
-
-            //Assert
-            Assert.Equal(0, totalBalance);
-        }
-
-        [Fact]
-        public void GetTotalBalance_ReturnsBalance_When_CoinIsAdded()
-        {
-            //Arrange
-            var coin = Coin.Quarter;
-            int num = 4;
-
-            //Act
-            _coinCollection.InsertCoinToMemory(coin, num);
-            int totalBalance = _coinCollection.GetTotalBalance();
-
-            //Assert
-            Assert.True(totalBalance > 0);
-        }
-
-        [Fact]
-        public void GetCoinValueFromCache_ReturnsZero_When_NoCoinIsAddedInCache()
-        {
-            //Arrange
-            var coin = Coin.Dime;
-
-            //Act
-            int coinValue = _coinCollection.GetCoinValueFromCache(coin);
-
-            //Assert
-            Assert.Equal(0, coinValue);
-        }
-
-        [Fact]
-        public void GetCoinValueFromCache_ReturnsCacheValue_When_CoinIsAddedInCache()
-        {
-            //Arrange
-            var coin = Coin.Dime;
-            int num = 5;
-
-            //Act
-            _coinCollection.InsertCoinToMemory(coin, num);
-            int returnCountValue = _coinCollection.GetCoinValueFromCache(coin);
-            int compareCountValue = (int)_memoryCacheService.GetCacheItem(coin.ToString());
-            //Assert
-            Assert.Equal(compareCountValue, returnCountValue);
-        }
+            Assert.Equal(coinValue, totalBalance);
+        }                     
 
         [Fact]
         public void UpdateCoinBalance_VerifyBalance_When_ProductDespensedSuccessfully()
@@ -118,12 +61,12 @@ namespace VMTests
             var coin2 = Coin.Nickel;
             int num2 = 5;
 
-            int productPrice = Product.Cola.GetProductPrice();
+            int productPrice = Product.Cola.GetProductValue();
 
             //Act
-            _coinCollection.InsertCoinToMemory(coin, num);
-            _coinCollection.InsertCoinToMemory(coin1, num1);
-            _coinCollection.InsertCoinToMemory(coin2, num2);
+            _coinCollection.InsertCoinToDictionary(coin, num);
+            _coinCollection.InsertCoinToDictionary(coin1, num1);
+            _coinCollection.InsertCoinToDictionary(coin2, num2);
 
             int totalBalance = _coinCollection.GetTotalBalance();
 

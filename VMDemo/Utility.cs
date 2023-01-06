@@ -21,28 +21,9 @@ namespace VMDemo
             return input;
         }
 
-        public static int GetValue(this Coin coin)
+        public static int GetCoinValue(this Coin coin)
         {
-            int value = 0;
-
-            switch (coin)
-            {
-                case Coin.Penny:
-                    value = 1;
-                    break;
-                case Coin.Nickel:
-                    value = 5;
-                    break;
-                case Coin.Dime:
-                    value = 10;
-                    break;
-                case Coin.Quarter:
-                    value = 25;
-                    break;
-                default:
-                    break;
-            }
-            return value;
+            return (int)coin;
         }
 
         public static Coin GetCoinType(this int option)
@@ -54,9 +35,7 @@ namespace VMDemo
                 case 2:
                     return Coin.Dime;
                 case 3:
-                    return Coin.Quarter;
-                case 4:
-                    return Coin.Penny;
+                    return Coin.Quarter;   
                 default:
                     return Coin.Other;
             }
@@ -77,52 +56,16 @@ namespace VMDemo
             }
         }
 
-        public static int GetProductPrice(this Product prod)
+        public static int GetProductValue(this Product prod)
         {
-            int price = 0;
-            switch (prod)
-            {
-                case Product.Cola:
-                    price = 100;
-                    break;
-                case Product.Candy:
-                    price = 65;
-                    break;
-                case Product.Chips:
-                    price = 50;
-                    break;
-                default:
-                    break;
-            }
-            return price;
+            return (int)prod;
         }
 
-        public static string GetCurrencyString(this int amount)
+        public static string ToCurrency(this int amount)
         {
             double amountValue = amount / 100.0;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            //return string.Format("{0:c}", amountValue);
             return amountValue.ToString("c");
-
-        }
-
-        public static bool IsValidCoin(this string coin)
-        {
-            bool isValid = Enum.GetNames(typeof(Coin))
-                .Any(x => x.ToString().Contains(coin, StringComparison.OrdinalIgnoreCase));
-            return isValid;
-        }
-
-        public static bool IsValidProduct(this string prod)
-        {
-            bool isValid = Enum.GetNames(typeof(Product))
-                .Any(x => x.ToString().Contains(prod, StringComparison.OrdinalIgnoreCase));
-            return isValid;
-        }
-
-        public static T ParseEnum<T>(this string value)
-        {
-            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

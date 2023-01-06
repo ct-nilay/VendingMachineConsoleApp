@@ -10,47 +10,38 @@ namespace VMDemo
 {
     public class CoinCollection
     {
-        MemoryCacheService _memoryCacheService; 
+        public Dictionary<Coin, int> dictionaryCoin = new Dictionary<Coin, int>();
 
-        public CoinCollection(MemoryCacheService memoryCacheService)
-        {
-            _memoryCacheService= memoryCacheService;
-        }
-        public void InsertCoinToMemory(Coin coin, int num)
+        public void InsertCoinToDictionary(Coin coin, int numberOfCoins)
         {
             string strCoin = coin.ToString();
-            int coinValue = num * coin.GetValue();
+            int coinValue = numberOfCoins * coin.GetCoinValue();
 
-            if (_memoryCacheService.IsExists(strCoin))
+            if (dictionaryCoin.ContainsKey(coin))
             {
-                var cacheCoinValue = _memoryCacheService.GetCacheItem(strCoin);
-                coinValue += (int)cacheCoinValue;
-                var cacheItem = new CacheItem(strCoin, coinValue);
-                _memoryCacheService.SetCacheItem(cacheItem);
+                
+                coinValue += GetCoinValueFromDictionary(coin);
+                dictionaryCoin[coin] = coinValue;
             }
             else
             {
-                var cacheItem = new CacheItem(strCoin, coinValue);
-                _memoryCacheService.Insert(cacheItem);
+                dictionaryCoin.Add(coin, coinValue);               
             }
         }
 
         public int GetTotalBalance()
         {
-            int quarterValue = GetCoinValueFromCache(Coin.Quarter);
-            int dimeValue = GetCoinValueFromCache(Coin.Dime);
-            int nickelValue = GetCoinValueFromCache(Coin.Nickel);
+            int quarterValue = GetCoinValueFromDictionary(Coin.Quarter);
+            int dimeValue = GetCoinValueFromDictionary(Coin.Dime);
+            int nickelValue = GetCoinValueFromDictionary(Coin.Nickel);
             int totalBalance = quarterValue + dimeValue + nickelValue;
             return totalBalance;
         }
 
-        public int GetCoinValueFromCache(Coin coin)
+        public int GetCoinValueFromDictionary(Coin coin)
         {
             int coinValue = 0;
-            if (_memoryCacheService.IsExists(coin.ToString()))
-            {
-                coinValue = (int)_memoryCacheService.GetCacheItem(coin.ToString());
-            }
+            dictionaryCoin.TryGetValue(coin, out coinValue);
             return coinValue;
         }
 
@@ -60,13 +51,11 @@ namespace VMDemo
 
             if (totalBalance >= productPrice)
             {
-                int quarterBalance = DispenseCoinCalculation(Coin.Quarter, productPrice);
-                productPrice = quarterBalance;
+                productPrice = DispenseCoinCalculation(Coin.Quarter, productPrice);
             }
             if (productPrice > 0)
             {
-                int dimeBalance = DispenseCoinCalculation(Coin.Dime, productPrice);
-                productPrice = dimeBalance;
+                productPrice = DispenseCoinCalculation(Coin.Dime, productPrice);
             }
             if (productPrice > 0)
             {
@@ -77,7 +66,7 @@ namespace VMDemo
         private int DispenseCoinCalculation(Coin coin, int productPrice)
         {
             if (productPrice == 0) return 0;
-            int coinValue = GetCoinValueFromCache(coin);
+            int coinValue = GetCoinValueFromDictionary(coin);
             if (coinValue == 0) return productPrice;
 
             if(coinValue >= productPrice)
@@ -85,18 +74,18 @@ namespace VMDemo
                 coinValue -= productPrice;
                 if (coinValue == 0)
                 {
-                    _memoryCacheService.Remove(coin.ToString());
+                    dictionaryCoin.Remove(coin);
                 }
                 else
                 {
                     var cacheItem = new CacheItem(coin.ToString(), coinValue);
-                    _memoryCacheService.SetCacheItem(cacheItem);
+                    dictionaryCoin[coin] = coinValue;
                     coinValue = 0;
                 }
             }
             else 
             {
-                _memoryCacheService.Remove(coin.ToString());
+                dictionaryCoin.Remove(coin);
                 coinValue = productPrice - coinValue;
             }
             return coinValue;

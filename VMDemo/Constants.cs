@@ -10,35 +10,35 @@ namespace VMDemo
     {
         public enum Coin
         {
-            Nickel,
-            Dime,
-            Quarter,
-            Penny,
-            Other
+            Nickel = 5,
+            Dime = 10,
+            Quarter = 25,
+            Other = 0
         }
 
         public enum Product
         {
-            Cola,
-            Candy,
-            Chips,
-            Other
+            Cola = 100,
+            Candy = 65,
+            Chips = 50,
+            Other = 0
         };
 
         public class StringConstants
         {
-            public const string SelectValid = "SELECT VALID OPTION!";
-            public const string InsertCoin = "PLEASE INSERT COIN!";
-            public const string CoinSuccess = "COIN INSERTED SUCCESSFULLY!";
-            public const string InvalidCoin = "INVALID COIN. PLEASE INSERT VALID COIN!";
-            public const string InvalidNumberOfCoins = "INVALID NUMBERS OF COINS!";
-            public const string ThankYou = "THANK YOU!";
-            public const string Balance = "YOUR BALANCE IS:";
-            public const string CoinIsNullOrEmpty = "COIN VALUE SHOULD NOT BE NULL OR EMPTY!";
-            public const string CheckInput = "PLEASE CHECK YOUR INPUTS!";
-            public const string ProductNullOrEmpty = "PRODUCT VALUE SHOULD NOT BE NULL OR EMPTY!";
-            public const string ProductPrice = "PRODUCT PRICE IS:";
-            public const string InvalidProduct = "INVALID PRODUCT!";
+            public const string SelectValid = "Select valid option!";
+            public const string InsertCoin = "Please insert coin!";
+            public const string CoinSuccess = "Coin inserted successfully!";
+            public const string InvalidCoin = "Invalid coin. Please insert valid coin!";
+            public const string InvalidNumberOfCoins = "Invalid number of coins!";
+            public const string ThankYou = "Thank you!";
+            public const string Balance = "Your balance is:";
+            public const string InsufficientBalance = "Insufficient Balance:";
+            public const string CoinIsNullOrEmpty = "Coin value should not be null or empty!";
+            public const string CheckInput = "Please check your inputs!";
+            public const string ProductNullOrEmpty = "Product value should not be null or empty!";
+            public const string ProductPrice = "Product price is:";
+            public const string InvalidProduct = "Invalid product!";
         }
     }
 }

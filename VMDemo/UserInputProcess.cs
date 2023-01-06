@@ -9,8 +9,7 @@ namespace VMDemo
 {
     public class UserInputProcess
     {
-        static MemoryCacheService _memoryCacheService = new MemoryCacheService();
-        static CoinCollection _coinCollection = new CoinCollection(_memoryCacheService);
+        static CoinCollection _coinCollection = new CoinCollection();
         VendingMachine _vendingMachine = new VendingMachine(_coinCollection);
         public Coin SelectedCoin { get; set; }
         public Product SelectedProduct { get; set; }
@@ -28,9 +27,9 @@ namespace VMDemo
             string? coin = Console.ReadLine();
             int coinReturnValue = coin.ValidateInput();
             SelectedCoin = coinReturnValue.GetCoinType();
-            if (SelectedCoin == Coin.Penny || SelectedCoin == Coin.Other)
+            if (SelectedCoin == Coin.Other)
             {
-                Console.WriteLine("INVALID COIN!\n");
+                Console.WriteLine(StringConstants.InvalidCoin + "\n");
                 return false;
             }
             return true;

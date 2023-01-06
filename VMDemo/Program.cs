@@ -8,8 +8,6 @@ UserInputProcess _userInputProcess = new UserInputProcess();
 int userChoice = 0;
 
 Console.WriteLine("Vending Machine Demo!\n");
-Console.WriteLine("The machine will accept these coins: Nickels($0.05), Dimes($0.1), Quarters ($0.25) & Pennies($0.01)");
-Console.WriteLine("There are three products to dispense: Cola($1), Candy($0.65) & Chips($0.50)");
 
 do
 {
@@ -17,7 +15,7 @@ do
     switch (userChoice)
     {
         case 1: // Accept Coin
-            Console.WriteLine("To Add Coins PRESS: 1 - Nickels, 2 - Dimes, 3 - Quarters, 4 - Pennies");            
+            Console.WriteLine("To Add Coins PRESS: 1 - Nickels($0.05), 2 - Dimes($0.1), 3 - Quarters($0.25)");            
             bool isValidCoin = _userInputProcess.HandleCoinSelection();
             if (isValidCoin)
             {
@@ -30,7 +28,7 @@ do
             }           
             break;
         case 2: // Dispense Product
-            Console.WriteLine("To Dispense Product PRESS: 1 - Cola, 2 - Candy, 3 - Chips");
+            Console.WriteLine("To Dispense Product PRESS: 1 - Cola($1), 2 - Candy($0.65), 3 - Chips($0.50)");
             bool isValidProduct = _userInputProcess.HandleProductSelection();
             if(isValidProduct) _userInputProcess.DispenseProduct();
             break;
